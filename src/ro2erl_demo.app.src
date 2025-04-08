@@ -8,7 +8,8 @@
         stdlib,
         grisp_connect,
         rosie_rclerl,
-        ro2erl_bridge
+        ro2erl_bridge,
+        sensor_msgs
     ]},
     {env,[]},
     {modules, []},

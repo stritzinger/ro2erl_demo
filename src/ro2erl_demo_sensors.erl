@@ -42,9 +42,12 @@ init(_) ->
     {ok, #state{}}.
 
 handle_call( range, _, S) ->
-    case pmod_maxsonar:get() of
+    try pmod_maxsonar:get() of
         undefined -> {reply, undefined, S};
         Range -> {reply, float(Range), S}
+    catch
+        _:{noproc, _} ->
+            {reply, undefined, S}
     end;
 handle_call( acc, _, S) ->
     Acc = pmod_nav:read(acc, [out_x_xl, out_y_xl, out_z_xl], #{xl_unit => mg}),

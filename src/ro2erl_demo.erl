@@ -127,11 +127,11 @@ code_change(_OldVsn, State, _Extra) ->
     grisp_led:off(2),
     LEDs = [1, 2],
     [grisp_led:flash(L, red, 500) || L <- LEDs],
-    robo_grisp_wheels:rotate(left),
+    % robo_grisp_wheels:rotate(left),
     timer:sleep(1000),
-    robo_grisp_wheels:rotate(right),
+    % robo_grisp_wheels:rotate(right),
     timer:sleep(1000),
-    robo_grisp_wheels:stop(),
+    % robo_grisp_wheels:stop(),
     grisp_led:off(2),
     Random = fun() ->
         {rand:uniform(2) - 1, rand:uniform(2) -1, rand:uniform(2) - 1}

@@ -31,11 +31,3 @@ dummy.*
 # Development files
 priv/certificates/servers/*
 priv/certificates/updates/*
-
-# Local TLS certificates
-local/*.pem
-local/*.key
-local/*.cfg
-local/*.srl
-local/*.csr
-local/*.rel
