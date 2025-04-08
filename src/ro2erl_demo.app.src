@@ -1,0 +1,18 @@
+{application, ro2erl_demo, [
+    {description, "Target-X demo application"},
+    {vsn, "0.1.0"},
+    {registered, []},
+    {mod, {ro2erl_demo_app, []}},
+    {applications, [
+        kernel,
+        stdlib,
+        grisp_connect,
+        rosie_rclerl,
+        ro2erl_bridge
+    ]},
+    {env,[]},
+    {modules, []},
+
+    {licenses, ["Apache 2.0"]},
+    {links, []}
+]}.

@@ -1,0 +1,41 @@
+.eunit
+*.o
+*.beam
+*.plt
+erl_crash.dump
+.concrete/DEV_MODE
+
+# rebar 2.x
+.rebar
+rel/example_project
+ebin/*.beam
+deps
+
+# rebar 3
+.rebar3
+_build/
+_checkouts/
+rebar3.crashdump
+
+# asdf
+.tool-versions
+
+# GRiSP
+_grisp
+
+# Emulation
+peers.CA.pem
+eeprom_*.dat
+dummy.*
+
+# Development files
+priv/certificates/servers/*
+priv/certificates/updates/*
+
+# Local TLS certificates
+local/*.pem
+local/*.key
+local/*.cfg
+local/*.srl
+local/*.csr
+local/*.rel
