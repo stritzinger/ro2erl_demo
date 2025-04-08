@@ -87,8 +87,8 @@ handle_info( update_loop, #state{
     temp_pub = TempPub}=S
 ) ->
     Range = ro2erl_demo_sensors:range(),
-    [Ax,Ay,Az] = ro2erl_demo_sensors:acc(),
-    [GRx,GRy,GRz] = ro2erl_demo_sensors:gyro(),
+    % [Ax,Ay,Az] = ro2erl_demo_sensors:acc(),
+    % [GRx,GRy,GRz] = ro2erl_demo_sensors:gyro(),
     [Temp] = ro2erl_demo_sensors:temp(),
     % io:format("range is ~p\n",[Range]),
     % io:format("acc is ~p ~p ~p\n",[Ax,Ay,Az]),
