@@ -7,6 +7,7 @@
 -include_lib("kernel/include/logger.hrl").
 
 -include_lib("rosie_dds/include/dds_types.hrl").
+-include_lib("rosie_dds/include/rtps_structure.hrl").
 
 -include_lib("sensor_msgs/src/_rosie/sensor_msgs_temperature_msg.hrl").
 -include_lib("sensor_msgs/src/_rosie/sensor_msgs_range_msg.hrl").
@@ -55,8 +56,10 @@ msg_processor({Msg, #{dender := Guid}}) ->
     {topic, list_to_binary(TopicName), false, size(Msg), Msg}.
 
 dispatch_callback(Msg) ->
-    %TODO: Integrate with rosie_rclerl
-    ?LOG_DEBUG("Received message: ~p", [Msg]).
+    ?LOG_DEBUG("Received message: ~p", [Msg]),
+    P = rtps_participant:get_info(participant),
+    ProcID = {receiver_of, P#participant.guid#guId.prefix},
+    rtps_receiver:receive_packet(ProcID, Msg).
 
 
 %=== BEHAVIOUR gen_server CALLBACK FUNCTIONS ===================================
