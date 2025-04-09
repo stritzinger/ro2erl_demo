@@ -50,12 +50,9 @@ start_link() ->
 
 %=== BRIDGE CALLBACK FUNCTIONS ==================================================
 
-msg_processor(Msg) ->
-    %TODO: Integrate with rosie_rclerl
-    TermSizeWords = erts_debug:flat_size(Msg),
-    WordSizeBytes = erlang:system_info(wordsize),
-    ApproxBytes   = TermSizeWords * WordSizeBytes,
-    {topic, <<"unknown">>, false, ApproxBytes, Msg}.
+msg_processor({Msg, #{dender := Guid}}) ->
+    #dds_user_topic{name = TopicName} = dds_data_w:get_topic({data_w_of, Guid}),
+    {topic, list_to_binary(TopicName), false, size(Msg), Msg}.
 
 dispatch_callback(Msg) ->
     %TODO: Integrate with rosie_rclerl
