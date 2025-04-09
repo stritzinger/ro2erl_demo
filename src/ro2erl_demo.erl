@@ -7,6 +7,7 @@
 -include_lib("kernel/include/logger.hrl").
 
 -include_lib("rosie_dds/include/dds_types.hrl").
+-include_lib("rosie_dds/include/rtps_constants.hrl").
 -include_lib("rosie_dds/include/rtps_structure.hrl").
 
 -include_lib("sensor_msgs/src/_rosie/sensor_msgs_temperature_msg.hrl").
@@ -42,7 +43,6 @@
 
 -define(PUB_PERIOD, 50).
 
-
 %=== API FUNCTIONS =============================================================
 
 start_link() ->
@@ -51,9 +51,18 @@ start_link() ->
 
 %=== BRIDGE CALLBACK FUNCTIONS ==================================================
 
-msg_processor({Msg, #{dender := Guid}}) ->
-    #dds_user_topic{name = TopicName} = dds_data_w:get_topic({data_w_of, Guid}),
-    {topic, list_to_binary(TopicName), false, size(Msg), Msg}.
+msg_processor({Msg, #{sender := #guId{entityId = EntityID} = Guid}}) ->
+    #entityId{key = _, kind = Kind} = EntityID,
+    Topic = case lists:member(Kind, dds_builtin_entity_kinds()) of
+        true -> "builtin";
+        false ->
+            Handler = find_entity_handler_module(Kind),
+            #dds_user_topic{name = Name} = dds_data_w:get_topic({Handler, Guid}),
+            Name
+    end,
+    SafeTopics = ["builtin"],
+    Filterable = not lists:member(Topic, SafeTopics),
+    {topic, list_to_binary(Topic), Filterable, size(Msg), Msg}.
 
 dispatch_callback(Msg) ->
     ?LOG_DEBUG("Received message: ~p", [Msg]),
@@ -138,3 +147,22 @@ code_change(_OldVsn, State, _Extra) ->
     end,
     grisp_led:pattern(1, [{100, Random}]),
     {ok, State}.
+
+dds_builtin_entity_kinds() ->
+    [
+        ?EKIND_BUILTIN_unknown,
+        ?EKIND_BUILTIN_Participant,
+        ?EKIND_BUILTIN_Writer_WITH_Key,
+        ?EKIND_BUILTIN_Writer_NO_Key,
+        ?EKIND_BUILTIN_Reader_NO_Key,
+        ?EKIND_BUILTIN_Reader_WITH_Key,
+        ?EKIND_BUILTIN_Writer_Group,
+        ?EKIND_BUILTIN_Reader_Group
+    ].
+
+find_entity_handler_module(?EKIND_USER_Writer_WITH_Key) ->  dds_data_w;
+find_entity_handler_module(?EKIND_USER_Writer_NO_Key) ->    dds_data_w;
+find_entity_handler_module(?EKIND_USER_Reader_NO_Key) ->    dds_data_r;
+find_entity_handler_module(?EKIND_USER_Reader_WITH_Key) ->  dds_data_r;
+find_entity_handler_module(?EKIND_USER_Writer_Group) ->     dds_data_w;
+find_entity_handler_module(?EKIND_USER_Reader_Group) ->     dds_data_r.
