@@ -24,10 +24,17 @@ rebar3.crashdump
 _grisp
 
 # Emulation
-peers.CA.pem
 eeprom_*.dat
 dummy.*
 
 # Development files
 priv/certificates/servers/*
 priv/certificates/updates/*
+
+# Local TLS certificates
+local/*.pem
+local/*.key
+local/*.cfg
+local/*.srl
+local/*.csr
+local/*.rel

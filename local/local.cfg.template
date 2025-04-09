@@ -1,0 +1,9 @@
+# end-entity Server certificate
+[ req ]
+prompt                 = no
+days                   = 3650
+default_md             = sha256
+distinguished_name     = req_distinguished_name
+
+[ req_distinguished_name ]
+commonName             = GRiSP2 device 0000
