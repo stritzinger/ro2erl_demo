@@ -38,3 +38,6 @@ local/*.cfg
 local/*.srl
 local/*.csr
 local/*.rel
+
+# ROSiE
+src/_rosie
