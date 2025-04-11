@@ -55,8 +55,8 @@
 
 %=== MACROS ====================================================================
 
--define(POLLING_PERIOD, 2).
--define(PUB_PERIOD, 100).
+-define(POLLING_PERIOD, 10).
+-define(PUB_PERIOD, 50).
 
 %=== API FUNCTIONS =============================================================
 
@@ -118,13 +118,13 @@ handle_call( _, _, S) ->
     {reply, ok, S}.
 
 handle_cast({on_topic_msg, #ro2erl_demo_multi_temp{temperatures = Temperatures}}, S) ->
-    %io:format("ROSIE: [ro2erl_demo]: I received ~p temp measurements~n", [length(Temperatures)]),
+    io:format("ROSIE: [ro2erl_demo]: I received ~p temp measurements~n", [length(Temperatures)]),
     {noreply, S};
 handle_cast({on_topic_msg, #ro2erl_demo_multi_range{ranges = Ranges}}, S) ->
-    %io:format("ROSIE: [ro2erl_demo]: I receivd ~p range measurements~n", [length(Ranges)]),
+    io:format("ROSIE: [ro2erl_demo]: I receivd ~p range measurements~n", [length(Ranges)]),
     {noreply, S};
 handle_cast({on_topic_msg, #ro2erl_demo_multi_accel{accelerations = Accelerations}}, S) ->
-    %io:format("ROSIE: [ro2erl_demo]: I receivd ~p accel measurements~n", [length(Accelerations)]),
+    io:format("ROSIE: [ro2erl_demo]: I receivd ~p accel measurements~n", [length(Accelerations)]),
     {noreply, S}.
 
 handle_info(polling_loop, #state{temp_measures = TempMeasures,
