@@ -47,7 +47,7 @@ proper name, e.g. `www.seawater.local.pem`.
 ### Without TLS
 
 ```bash
-rebar3 as local shell --name demo --setcookie targetx
+rebar3 as local shell --sname demo --setcookie targetx
 ```
 
 ### With TLS
