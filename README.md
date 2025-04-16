@@ -47,7 +47,7 @@ proper name, e.g. `www.seawater.local.pem`.
 ### Without TLS
 
 ```bash
-rebar3 as local shell --name demo --setcookie targetx
+ERL_FLAGS='-connect_all false' rebar3 as local shell --name demo --setcookie targetx
 ```
 
 ### With TLS
